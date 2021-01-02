@@ -1,3 +1,137 @@
+# Oauth 2 and KeyCloak POC
+
+## Docker Compose
+
+### KeyCloak
+- `keycloak` is based on these: https://github.com/keycloak/keycloak-containers/tree/master/docker-compose-examples
+- `ldap` is based on these: https://github.com/osixia/docker-openldap
+
+"cn=admin,dc=example,dc=org" -w admin
+
+`https://github.com/keycloak/keycloak-documentation/blob/master/server_development/topics/admin-rest-api.adoc`
+
+#### LDAP SETUP
+
+`curl -X 'PUT' http://${host}:${port}/auth/admin/realms/${realm}/components/${ldap_component}`
+
+```json
+{
+  "name": "ldap",
+  "providerId": "ldap",
+  "providerType": "org.keycloak.storage.UserStorageProvider",
+  "parentId": "master",
+  "config": {
+    "fullSyncPeriod": [
+      "-1"
+    ],
+    "pagination": [
+      "true"
+    ],
+    "connectionPooling": [
+      "true"
+    ],
+    "usersDn": [
+      "ou=People,dc=example,dc=org"
+    ],
+    "cachePolicy": [
+      "DEFAULT"
+    ],
+    "useKerberosForPasswordAuthentication": [
+      "false"
+    ],
+    "importEnabled": [
+      "true"
+    ],
+    "enabled": [
+      "true"
+    ],
+    "bindDn": [
+      "cn=admin,dc=example,dc=org"
+    ],
+    "changedSyncPeriod": [
+      "-1"
+    ],
+    "bindCredential": [
+      "admin"
+    ],
+    "usernameLDAPAttribute": [
+      "uid"
+    ],
+    "vendor": [
+      "other"
+    ],
+    "uuidLDAPAttribute": [
+      "entryUUID"
+    ],
+    "connectionUrl": [
+      "ldap://ldap"
+    ],
+    "allowKerberosAuthentication": [
+      "false"
+    ],
+    "syncRegistrations": [
+      "false"
+    ],
+    "authType": [
+      "simple"
+    ],
+    "debug": [
+      "false"
+    ],
+    "searchScope": [
+      "1"
+    ],
+    "useTruststoreSpi": [
+      "ldapsOnly"
+    ],
+    "trustEmail": [
+      "false"
+    ],
+    "priority": [
+      "0"
+    ],
+    "userObjectClasses": [
+      "inetOrgPerson, organizationalPerson"
+    ],
+    "rdnLDAPAttribute": [
+      "uid"
+    ],
+    "editMode": [
+      "WRITABLE"
+    ],
+    "validatePasswordPolicy": [
+      "false"
+    ],
+    "batchSizeForSync": [
+      "1000"
+    ],
+    "evictionDay": [],
+    "evictionHour": [],
+    "evictionMinute": [],
+    "maxLifespan": [],
+    "usePasswordModifyExtendedOp": [],
+    "startTls": [],
+    "customUserSearchFilter": [],
+    "connectionPoolingAuthentication": [],
+    "connectionPoolingDebug": [],
+    "connectionPoolingInitSize": [],
+    "connectionPoolingMaxSize": [],
+    "connectionPoolingPrefSize": [],
+    "connectionPoolingProtocol": [],
+    "connectionPoolingTimeout": [],
+    "connectionTimeout": [],
+    "readTimeout": [],
+    "serverPrincipal": [],
+    "keyTab": [],
+    "kerberosRealm": []
+  }
+}
+```
+
+#### Client Credential
+
+https://developers.redhat.com/blog/2020/01/29/api-login-and-jwt-token-generation-using-keycloak/
+
 # OAUTH2
 
 [[_TOC_]]
