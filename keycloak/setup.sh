@@ -65,12 +65,6 @@ curl "http://${KEYCLOAK_HOST}:${KEYCLOAK_PORT}/auth/admin/realms/${realm}/compon
 --header "Authorization: Bearer ${access_token}"  > "components.json"
 ldap_id=$(cat components.json | jq -c '.[] | select(.name | contains("ldap_connection"))' | jq '.id' | head -1 | cut -d '"' -f 2)
 
-# TEST LDAP CONNECTION
-
-curl --location --request POST "http://${KEYCLOAK_HOST}:${KEYCLOAK_PORT}/auth/admin/realms/${realm}/testLDAPConnection" \
---header "Authorization: Bearer ${access_token}" \
-  --data-binary "{\"componentId\":\"${ldap_id}\",\"action\":\"testConnection\",\"connectionUrl\":\"ldap:\/\/ldap\",\"authType\":\"simple\",\"bindDn\":\"cn=admin,dc=example,dc=org\",\"bindCredential\":\"admin\",\"useTruststoreSpi\":\"ldapsOnly\",\"connectionTimeout\":\"\",\"startTls\":\"\"}"
-
 # SYNC USERS
 
 curl --location --request POST "http://${KEYCLOAK_HOST}:${KEYCLOAK_PORT}/auth/admin/realms/${realm}/user-storage/${ldap_id}/sync?action=triggerFullSync" \
