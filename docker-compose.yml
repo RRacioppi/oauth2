@@ -36,3 +36,15 @@ services:
     ports:
       - "389"
       - "636"
+  keycloak_provisioner:
+       image: dwdraju/alpine-curl-jq
+       environment:
+         KEYCLOAK_HOST: keycloak
+         KEYCLOAK_PORT: 8080
+         KEYCLOAK_USER: admin
+         KEYCLOAK_PASSWORD: password
+       command: /bin/bash -c "cd /tmp/keycloak ; bash setup.sh"
+       volumes:
+       - ./keycloak:/tmp/keycloak
+       depends_on:
+       - keycloak
